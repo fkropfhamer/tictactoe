@@ -1,7 +1,8 @@
 import "./index.css";
+import Game from "./game";
 
 function main(): void {
-    console.log("test");
+    new Game();
 }
 
 main();
