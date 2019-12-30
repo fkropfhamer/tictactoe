@@ -17,10 +17,10 @@ export default class Game {
             this.playBoard[i][j] = BoardState.X;
             this.view.drawBoard(this.playBoard);
             if (this.playerHasWon()) {
-                alert("you won");
+                alert("you won! :D");
                 this.clearBoard();
             } else if(this.boardIsFull()) {
-                alert("tie");
+                alert("tie! :|");
                 this.clearBoard();
             } else {
                 this.botTurn();
@@ -68,12 +68,13 @@ export default class Game {
     }
 
     private botTurn() {
-        this.randomTurn() 
+        this.randomTurn();
+        this.view.drawBoard(this.playBoard);
         if (this.playerHasWon()) {
-            alert("you lose :(");
+            alert("you lose! :(");
             this.clearBoard();
         }
-        this.view.drawBoard(this.playBoard);
+        
     }
 
     private randomTurn() {
@@ -87,7 +88,6 @@ export default class Game {
                 break;
             }
         }
-        console.log(i, j);
         this.playBoard[i][j] = BoardState.O;
     }
     
