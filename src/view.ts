@@ -9,7 +9,7 @@ export default class View {
         this.canvas = document.createElement("canvas");
         this.context = this.canvas.getContext("2d");
 
-        this.canvas.style.backgroundColor = Color.Black;
+        this.canvas.style.backgroundColor = Config.BACKGROUND_COLOR;
         this.canvas.width = Config.CANVAS_SIZE;
         this.canvas.height = Config.CANVAS_SIZE;
         document.getElementById("root").appendChild(this.canvas);
@@ -46,14 +46,14 @@ export default class View {
         this.context.beginPath();
         this.context.moveTo(x1, y1);
         this.context.lineTo(x2, y2);
-        this.context.strokeStyle = Color.White;
+        this.context.strokeStyle = Config.DRAW_COLOR;
         this.context.stroke();
     }
 
     private drawCircle(x: number, y: number, radius: number): void {
         this.context.beginPath();
         this.context.arc(x, y, radius, 0, Math.PI * 2);
-        this.context.strokeStyle = Color.White;
+        this.context.strokeStyle = Config.DRAW_COLOR;
         this.context.stroke();
     }
 
