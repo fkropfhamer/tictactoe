@@ -1,5 +1,5 @@
 import Config from "./config";
-import { BoardState } from "./enums";
+import { BoardState, Color } from "./enums";
 
 export default class View {
     private canvas: HTMLCanvasElement;
@@ -9,7 +9,7 @@ export default class View {
         this.canvas = document.createElement("canvas");
         this.context = this.canvas.getContext("2d");
 
-        this.canvas.style.backgroundColor = "black";
+        this.canvas.style.backgroundColor = Color.Black;
         this.canvas.width = Config.CANVAS_SIZE;
         this.canvas.height = Config.CANVAS_SIZE;
         document.getElementById("root").appendChild(this.canvas);
@@ -17,8 +17,8 @@ export default class View {
 
     public drawBoard(board: BoardState[][]) {
         this.drawGrid();
-        board.forEach((row, i) => {
-            row.forEach((state, j) => {
+        board.forEach((column, i) => {
+            column.forEach((state, j) => {
                 this.drawBoardState(i, j, state);
             })
         })
@@ -46,14 +46,14 @@ export default class View {
         this.context.beginPath();
         this.context.moveTo(x1, y1);
         this.context.lineTo(x2, y2);
-        this.context.strokeStyle = "white";
+        this.context.strokeStyle = Color.White;
         this.context.stroke();
     }
 
     private drawCircle(x: number, y: number, radius: number): void {
         this.context.beginPath();
         this.context.arc(x, y, radius, 0, Math.PI * 2);
-        this.context.strokeStyle = "white";
+        this.context.strokeStyle = Color.White;
         this.context.stroke();
     }
 

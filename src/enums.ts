@@ -3,3 +3,8 @@ export enum BoardState {
     X = 1,
     O = 2,
 };
+
+export enum Color {
+    Black = "black",
+    White = "white",
+};
