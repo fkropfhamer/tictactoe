@@ -28,7 +28,20 @@ export default class View {
         })
     }
 
-    public drawLine(x1: number, y1: number, x2: number, y2: number): void {
+    public addClickEventListener(fn: (i: number, j: number) => void) {
+        this.canvas.addEventListener("click", (event: MouseEvent) => {
+            const x: number = event.offsetX;
+            const y: number = event.offsetY;
+            const gridSize: number = this.canvas.width / 3;
+
+            const i = Math.floor(x / gridSize);
+            const j = Math.floor(y / gridSize);
+
+            fn(i, j);
+        });
+    };
+
+    private drawLine(x1: number, y1: number, x2: number, y2: number): void {
         this.context.beginPath();
         this.context.moveTo(x1, y1);
         this.context.lineTo(x2, y2);
@@ -36,14 +49,14 @@ export default class View {
         this.context.stroke();
     }
 
-    public drawCircle(x: number, y: number, radius: number): void {
+    private drawCircle(x: number, y: number, radius: number): void {
         this.context.beginPath();
         this.context.arc(x, y, radius, 0, Math.PI * 2);
         this.context.strokeStyle = "white";
         this.context.stroke();
     }
 
-    public drawCross(x: number, y: number, radius: number): void {
+    private drawCross(x: number, y: number, radius: number): void {
         this.drawLine(x - radius, y - radius, x + radius, y + radius);
         this.drawLine(x + radius, y - radius, x - radius, y + radius)
     }
@@ -51,7 +64,7 @@ export default class View {
     /**
      * drawGrid
      */
-    public drawGrid(): void {
+    private drawGrid(): void {
         this.drawLine(this.canvas.width / 3, 0, this.canvas.width / 3, this.canvas.height);
         this.drawLine(2 * this.canvas.width / 3, 0, 2 * this.canvas.width / 3, this.canvas.height);
         this.drawLine(0, this.canvas.height / 3, this.canvas.width, this.canvas.height / 3);
