@@ -13,10 +13,6 @@ export default class View {
         this.canvas.width = Config.CANVAS_SIZE;
         this.canvas.height = Config.CANVAS_SIZE;
         document.getElementById("root").appendChild(this.canvas);
-
-        //this.drawGrid();
-        //this.drawCircle(500 / 6, 500 / 6, 50);
-        //this.drawCross(3 * 500/6, 500/6, 50);
     }
 
     public drawBoard(board: BoardState[][]) {
@@ -40,6 +36,11 @@ export default class View {
             fn(i, j);
         });
     };
+
+    public clearCanvas() {
+        this.context.clearRect(0, 0, this.canvas.width, this.canvas.height);
+        this.drawGrid();
+    }
 
     private drawLine(x1: number, y1: number, x2: number, y2: number): void {
         this.context.beginPath();

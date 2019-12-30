@@ -1,6 +1,5 @@
 import View from "./view";
 import { BoardState } from "./enums";
-import Config from "./config";
 
 export default class Game {
     private view: View
@@ -11,14 +10,22 @@ export default class Game {
         this.clearBoard();
 
         this.view.addClickEventListener(this.changeBoardState.bind(this));
-        this.view.drawBoard(this.playBoard);
     }
 
     private changeBoardState(i: number, j: number): void {
-        this.playBoard[i][j] = BoardState.X;
-        this.view.drawBoard(this.playBoard);
-        if (this.playerHasWon()) {
-            alert("you won");
+        if (this.playBoard[i][j] === BoardState.Empty) {
+            this.playBoard[i][j] = BoardState.X;
+            this.view.drawBoard(this.playBoard);
+            if (this.playerHasWon()) {
+                alert("you won");
+                this.clearBoard();
+            } else if(this.boardIsFull()) {
+                alert("tie");
+                this.clearBoard();
+            } else {
+                this.botTurn();
+            }
+            
         }
     }
 
@@ -27,6 +34,11 @@ export default class Game {
         const column2 = [BoardState.Empty, BoardState.Empty, BoardState.Empty];
         const column3 = [BoardState.Empty, BoardState.Empty, BoardState.Empty];
         this.playBoard = [column1, column2, column3];
+        this.view.clearCanvas();
+    }
+
+    private boardIsFull() {
+        return !this.playBoard.map((column) => column.map((boardState) => boardState === BoardState.Empty).reduce((a, b) => a || b, false)).reduce((a, b) =>  a || b, false);
     }
 
     private playerHasWon(): boolean {
@@ -53,6 +65,30 @@ export default class Game {
         const condition2 = state2 === state3;
         const condition3 = state3 !== BoardState.Empty;
         return condition1 && condition2 && condition3
+    }
+
+    private botTurn() {
+        this.randomTurn() 
+        if (this.playerHasWon()) {
+            alert("you lose :(");
+            this.clearBoard();
+        }
+        this.view.drawBoard(this.playBoard);
+    }
+
+    private randomTurn() {
+        let i: number;
+        let j: number;
+
+        while(true) {
+            i = Math.floor(Math.random() * 3);
+            j = Math.floor(Math.random() * 3);
+            if(this.playBoard[i][j] === BoardState.Empty) {
+                break;
+            }
+        }
+        console.log(i, j);
+        this.playBoard[i][j] = BoardState.O;
     }
     
 }
