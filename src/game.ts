@@ -29,7 +29,7 @@ export default class Game {
         }
     }
 
-    private clearBoard() {
+    private clearBoard(): void {
         const column1 = [BoardState.Empty, BoardState.Empty, BoardState.Empty];
         const column2 = [BoardState.Empty, BoardState.Empty, BoardState.Empty];
         const column3 = [BoardState.Empty, BoardState.Empty, BoardState.Empty];
@@ -37,8 +37,11 @@ export default class Game {
         this.view.clearCanvas();
     }
 
-    private boardIsFull() {
-        return !this.playBoard.map((column) => column.map((boardState) => boardState === BoardState.Empty).reduce((a, b) => a || b, false)).reduce((a, b) =>  a || b, false);
+    private boardIsFull(): boolean {
+        return !this.playBoard.map(
+            (column) => column.map((boardState) => boardState === BoardState.Empty)
+            .reduce((a, b) => a || b, false))
+            .reduce((a, b) =>  a || b, false);
     }
 
     private playerHasWon(): boolean {
@@ -60,14 +63,14 @@ export default class Game {
         return false;
     }
 
-    private isWinningLine(state1: BoardState, state2: BoardState, state3: BoardState) {
-        const condition1 = state1 === state2;
-        const condition2 = state2 === state3;
-        const condition3 = state3 !== BoardState.Empty;
+    private isWinningLine(state1: BoardState, state2: BoardState, state3: BoardState): boolean {
+        const condition1: boolean = state1 === state2;
+        const condition2: boolean = state2 === state3;
+        const condition3: boolean = state3 !== BoardState.Empty;
         return condition1 && condition2 && condition3
     }
 
-    private botTurn() {
+    private botTurn(): void {
         this.randomTurn();
         this.view.drawBoard(this.playBoard);
         if (this.playerHasWon()) {
@@ -77,7 +80,7 @@ export default class Game {
         
     }
 
-    private randomTurn() {
+    private randomTurn(): void {
         let i: number;
         let j: number;
 

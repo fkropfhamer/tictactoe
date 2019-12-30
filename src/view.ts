@@ -15,7 +15,7 @@ export default class View {
         document.getElementById("root").appendChild(this.canvas);
     }
 
-    public drawBoard(board: BoardState[][]) {
+    public drawBoard(board: BoardState[][]): void {
         this.drawGrid();
         board.forEach((column, i) => {
             column.forEach((state, j) => {
@@ -24,20 +24,20 @@ export default class View {
         })
     }
 
-    public addClickEventListener(fn: (i: number, j: number) => void) {
+    public addClickEventListener(fn: (i: number, j: number) => void): void {
         this.canvas.addEventListener("click", (event: MouseEvent) => {
             const x: number = event.offsetX;
             const y: number = event.offsetY;
             const gridSize: number = this.canvas.width / 3;
 
-            const i = Math.floor(x / gridSize);
-            const j = Math.floor(y / gridSize);
+            const i: number = Math.floor(x / gridSize);
+            const j: number = Math.floor(y / gridSize);
 
             fn(i, j);
         });
     };
 
-    public clearCanvas() {
+    public clearCanvas(): void {
         this.context.clearRect(0, 0, this.canvas.width, this.canvas.height);
         this.drawGrid();
     }
@@ -62,9 +62,6 @@ export default class View {
         this.drawLine(x + radius, y - radius, x - radius, y + radius)
     }
 
-    /**
-     * drawGrid
-     */
     private drawGrid(): void {
         this.drawLine(this.canvas.width / 3, 0, this.canvas.width / 3, this.canvas.height);
         this.drawLine(2 * this.canvas.width / 3, 0, 2 * this.canvas.width / 3, this.canvas.height);
@@ -72,7 +69,7 @@ export default class View {
         this.drawLine(0, 2 * this.canvas.height / 3, this.canvas.width, 2 * this.canvas.height / 3);
     }
 
-    private drawBoardState(i: number, j: number, boardState: BoardState) {
+    private drawBoardState(i: number, j: number, boardState: BoardState): void {
         const gridSize = this.canvas.width / 6;
         const x = (i * 2 + 1) * gridSize;
         const y = (j * 2 + 1) * gridSize;
