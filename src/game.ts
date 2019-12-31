@@ -46,7 +46,7 @@ export default class Game {
         if (endingState !== EndingState.Tie) {
         this.view.drawWinningLine(this.getWinningLine());
         }
-        
+
         setTimeout(() => {
             alert(message);
             this.clearBoard();
@@ -146,7 +146,9 @@ export default class Game {
         for (let i = 0;i < 3; i++) {
             for (let j = 0; j < 3; j++) {
                 if (this.playBoard[i][j] === BoardState.Empty) {
-                    const score = this.minimax(this.playBoard, true, 0);
+                    this.playBoard[i][j] = BoardState.O;
+                    const score = this.minimax(this.playBoard, false, 0);
+                    this.playBoard[i][j] = BoardState.Empty;
                     if (score > bestScore) {
                         bestScore = score;
                         move = { i, j };
@@ -154,12 +156,39 @@ export default class Game {
                 }
             }
         }
-        console.log(move);
         this.playBoard[move.i][move.j] = BoardState.O;
     }
 
     private minimax(board: BoardState[][], isMaximizing: boolean, depth: number): number {
-        return 0;
-        this.minimax(board, !isMaximizing, depth + 1)
+        if (this.isEndingState()) {
+            return this.getEndingState();
+        }
+        let bestScore: number;
+        if (isMaximizing) {
+            bestScore = -Infinity;
+            for (let i = 0;i < 3; i++) {
+                for (let j = 0; j < 3; j++) {
+                    if (this.playBoard[i][j] === BoardState.Empty) {
+                        this.playBoard[i][j] = BoardState.O;
+                        const score = this.minimax(this.playBoard, false, depth + 1);
+                        this.playBoard[i][j] = BoardState.Empty;
+                        bestScore = Math.max(score, bestScore);
+                    }
+                }
+            }
+        } else {
+            bestScore = Infinity;
+            for (let i = 0;i < 3; i++) {
+                for (let j = 0; j < 3; j++) {
+                    if (this.playBoard[i][j] === BoardState.Empty) {
+                        this.playBoard[i][j] = BoardState.X;
+                        const score = this.minimax(this.playBoard, true, depth + 1);
+                        this.playBoard[i][j] = BoardState.Empty;
+                        bestScore = Math.min(score, bestScore);
+                    }
+                }
+            }
+        }
+        return bestScore;
     }
 }
