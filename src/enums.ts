@@ -8,3 +8,9 @@ export enum Color {
     Black = "black",
     White = "white",
 };
+
+export enum EndingState {
+    Tie = 0,
+    OWin = 1,
+    XWin = -1,
+}

@@ -1,5 +1,6 @@
 import Config from "./config";
 import { BoardState, Color } from "./enums";
+import IBoardPosition from "./boardpositioninterface";
 
 export default class View {
     private canvas: HTMLCanvasElement;
@@ -37,6 +38,15 @@ export default class View {
         });
     };
 
+    public drawWinningLine(boardPositions: IBoardPosition[]) {
+        const x1 = this.mapBoardPosition(boardPositions[0].i);
+        const y1 = this.mapBoardPosition(boardPositions[0].j);
+        const x2 = this.mapBoardPosition(boardPositions[2].i);
+        const y2 = this.mapBoardPosition(boardPositions[2].j);
+
+        this.drawLine(x1, y1, x2, y2);
+    }
+
     public clearCanvas(): void {
         this.context.clearRect(0, 0, this.canvas.width, this.canvas.height);
         this.drawGrid();
@@ -69,10 +79,14 @@ export default class View {
         this.drawLine(0, 2 * this.canvas.height / 3, this.canvas.width, 2 * this.canvas.height / 3);
     }
 
-    private drawBoardState(i: number, j: number, boardState: BoardState): void {
+    private mapBoardPosition(z: number): number {
         const gridSize = this.canvas.width / 6;
-        const x = (i * 2 + 1) * gridSize;
-        const y = (j * 2 + 1) * gridSize;
+        return (z * 2 + 1) * gridSize;
+    }
+
+    private drawBoardState(i: number, j: number, boardState: BoardState): void {
+        const x = this.mapBoardPosition(i);
+        const y = this.mapBoardPosition(j);
         if(boardState === BoardState.O) {
             this.drawCircle( x,  y, this.canvas.height / 10);
         }
