@@ -17,20 +17,40 @@ export default class Game {
         if (this.playBoard[i][j] === BoardState.Empty) {
             this.playBoard[i][j] = BoardState.X;
             this.view.drawBoard(this.playBoard);
-            if (this.playerHasWon()) {
-                this.view.drawWinningLine(this.getWinningLine());
-                setTimeout(() => {
-                    alert("you won! :D");
-                    this.clearBoard();
-                },1000);
-            } else if(this.boardIsFull()) {
-                alert("tie! :|");
-                this.clearBoard();
+            if (this.isEndingState()) {
+                this.handleEnd();
             } else {
                 this.botTurn();
             }
             
         }
+    }
+
+    private handleEnd() {
+        const endingState = this.getEndingState();
+        let message: string;
+        switch(endingState) {
+            case EndingState.Tie:
+                message = "Tie! :|";
+                break;
+            case EndingState.OWin:
+                message = "You lost! :(";
+                break;
+            case EndingState.XWin:
+                message = "You won :D";
+                break;
+            default:
+                throw Error(`unknwon end state: ${endingState}`);
+        }
+
+        if (endingState !== EndingState.Tie) {
+        this.view.drawWinningLine(this.getWinningLine());
+        }
+        
+        setTimeout(() => {
+            alert(message);
+            this.clearBoard();
+        });
     }
 
     private clearBoard(): void {
@@ -101,11 +121,9 @@ export default class Game {
         // this.randomTurn();
         this.minimaxTurn();
         this.view.drawBoard(this.playBoard);
-        if (this.playerHasWon()) {
-            alert("you lose! :(");
-            this.clearBoard();
+        if (this.isEndingState()) {
+            this.handleEnd();
         }
-        
     }
 
     private randomTurn(): void {
