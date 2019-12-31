@@ -26,7 +26,7 @@ export default class Game {
         }
     }
 
-    private handleEnd() {
+    private handleEnd(): void {
         const endingState = this.getEndingState();
         let message: string;
         switch(endingState) {
@@ -142,7 +142,7 @@ export default class Game {
 
     private minimaxTurn(): void {
         let bestScore = -Infinity;
-        let move;
+        let move: IBoardPosition;
         for (let i = 0;i < 3; i++) {
             for (let j = 0; j < 3; j++) {
                 if (this.playBoard[i][j] === BoardState.Empty) {
@@ -154,7 +154,7 @@ export default class Game {
                         move = { i, j };
                     }
                     if (score === bestScore) {
-                        move = Math.random() < 0.5 ? move : { i, j };
+                        move = Math.random() < 0.2 ? move : { i, j };
                     }
                 }
             }

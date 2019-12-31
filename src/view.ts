@@ -38,7 +38,7 @@ export default class View {
         });
     };
 
-    public drawWinningLine(boardPositions: IBoardPosition[]) {
+    public drawWinningLine(boardPositions: IBoardPosition[]): void {
         const x1 = this.mapBoardPosition(boardPositions[0].i);
         const y1 = this.mapBoardPosition(boardPositions[0].j);
         const x2 = this.mapBoardPosition(boardPositions[2].i);
