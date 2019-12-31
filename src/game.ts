@@ -153,6 +153,9 @@ export default class Game {
                         bestScore = score;
                         move = { i, j };
                     }
+                    if (score === bestScore) {
+                        move = Math.random() < 0.5 ? move : { i, j };
+                    }
                 }
             }
         }
