@@ -1,5 +1,5 @@
 import Config from "./config";
-import { BoardState, Color } from "./enums";
+import { BoardState } from "./enums";
 import IBoardPosition from "./boardpositioninterface";
 
 export default class View {

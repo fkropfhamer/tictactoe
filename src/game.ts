@@ -44,7 +44,7 @@ export default class Game {
         }
 
         if (endingState !== EndingState.Tie) {
-        this.view.drawWinningLine(this.getWinningLine());
+            this.view.drawWinningLine(this.getWinningLine());
         }
 
         setTimeout(() => {
