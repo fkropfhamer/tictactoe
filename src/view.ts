@@ -1,6 +1,6 @@
 import Config from "./config";
 import { BoardState } from "./enums";
-import IBoardPosition from "./boardpositioninterface";
+import BoardPosition from "./boardposition";
 
 export default class View {
     private canvas: HTMLCanvasElement;
@@ -38,7 +38,7 @@ export default class View {
         });
     }
 
-    public drawWinningLine(boardPositions: IBoardPosition[]): void {
+    public drawWinningLine(boardPositions: BoardPosition[]): void {
         const x1 = this.mapBoardPosition(boardPositions[0].i);
         const y1 = this.mapBoardPosition(boardPositions[0].j);
         const x2 = this.mapBoardPosition(boardPositions[2].i);

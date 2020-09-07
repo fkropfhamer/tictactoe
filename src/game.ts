@@ -1,6 +1,6 @@
 import View from "./view";
 import { BoardState, EndingState } from "./enums";
-import IBoardPosition from "./boardpositioninterface";
+import BoardPosition from "./boardposition";
 
 export default class Game {
     private view: View
@@ -72,7 +72,7 @@ export default class Game {
         return this.getWinningLine().length === 3;
     }
 
-    private getWinningLine(): IBoardPosition[] {
+    private getWinningLine(): BoardPosition[] {
         for(let i = 0; i<3; i++) {
             if (this.isWinningLine(this.playBoard[i][0], this.playBoard[i][1], this.playBoard[i][2])) {
                 return [{i, j: 0}, {i, j: 1}, {i, j: 2}];
@@ -142,7 +142,7 @@ export default class Game {
 
     private minimaxTurn(): void {
         let bestScore = -Infinity;
-        let move: IBoardPosition;
+        let move: BoardPosition;
         for (let i = 0;i < 3; i++) {
             for (let j = 0; j < 3; j++) {
                 if (this.playBoard[i][j] === BoardState.Empty) {
