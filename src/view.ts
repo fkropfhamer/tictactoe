@@ -36,7 +36,7 @@ export default class View {
 
             fn(i, j);
         });
-    };
+    }
 
     public drawWinningLine(boardPositions: IBoardPosition[]): void {
         const x1 = this.mapBoardPosition(boardPositions[0].i);
