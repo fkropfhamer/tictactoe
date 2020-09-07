@@ -14,3 +14,10 @@ export enum EndingState {
     OWin = 1,
     XWin = -1,
 }
+
+export enum GameMode {
+    Easy,
+    Medium,
+    Hard,
+    TwoPlayer,
+}
