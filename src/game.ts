@@ -1,12 +1,15 @@
 import View from "./view";
-import { BoardState, EndingState } from "./enums";
+import { BoardState, EndingState, GameMode } from "./enums";
 import BoardPosition from "./boardposition";
 
 export default class Game {
     private view: View
     private playBoard: BoardState[][]
+    private currentGameMode: GameMode;
     
-    constructor() {
+    constructor(gameMode = GameMode.Medium) {
+        this.currentGameMode = gameMode;
+
         this.view = new View();
         this.clearBoard();
 
@@ -118,8 +121,20 @@ export default class Game {
     }
 
     private botTurn(): void {
-        // this.randomTurn();
-        this.minimaxTurn();
+        switch(this.currentGameMode) {
+            case GameMode.Easy:
+                this.randomTurn();
+                break;
+            case GameMode.Medium:
+                this.minimaxTurn();
+                break;
+            case GameMode.TwoPlayer:
+            case GameMode.Hard:
+            default:
+                throw Error('not implemented');
+        }
+        
+        
         this.view.drawBoard(this.playBoard);
         if (this.isEndingState()) {
             this.handleEnd();
