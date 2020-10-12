@@ -1,8 +1,8 @@
 import "./index.css";
-import Game from "./game";
+import TicTacToe from "./tictactoe";
 
 function main(): void {
-    new Game();
+    new TicTacToe();
 }
 
 main();

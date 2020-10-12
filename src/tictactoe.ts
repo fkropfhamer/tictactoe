@@ -2,7 +2,7 @@ import View from "./view";
 import { BoardState, EndingState, GameMode } from "./enums";
 import BoardPosition from "./boardposition";
 
-export default class Game {
+export default class TicTacToe {
     private view: View
     private playBoard: BoardState[][]
     private currentGameMode: GameMode;

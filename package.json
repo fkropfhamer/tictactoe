@@ -1,13 +1,16 @@
 {
-  "name": "tictactoe",
-  "version": "0.0.1",
+  "name": "@fkropfhamer/tictactoe",
+  "version": "0.0.0",
   "description": "tictactoe game",
-  "main": "main.ts",
+  "main": "lib/tictactoe.js",
+  "types": "lib/tictactoe.d.ts",
   "scripts": {
     "test": "jest",
     "watch": "webpack --watch --mode development",
     "build": "webpack --mode production",
-    "lint": "eslint ./src --ext .ts"
+    "lint": "eslint ./src --ext .ts",
+    "package": "tsc",
+    "prepare": "npm run package"
   },
   "keywords": [
     "tictactoe",
@@ -33,5 +36,8 @@
     "typescript": "^3.9.7",
     "webpack": "^4.44.1",
     "webpack-cli": "^3.3.12"
-  }
+  },
+  "files": [
+    "lib/**/*"
+  ]
 }
