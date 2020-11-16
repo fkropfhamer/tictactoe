@@ -67,6 +67,7 @@ export default class TicTacToe {
 
         if (gameState) {
             console.log(gameState, 'won');
+            this.model.setWinningLine(gameState.winningLine);
         }
 
         if (this.gameMode === GameMode.Easy) {

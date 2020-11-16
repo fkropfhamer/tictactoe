@@ -1,6 +1,7 @@
 import { FieldState } from "./enums";
 import View from "./view";
 import Model from "./model";
+import BoardPosition from "./boardposition";
 
 export default class TicTacToeView implements View {
     private canvas: HTMLCanvasElement;
@@ -24,6 +25,12 @@ export default class TicTacToeView implements View {
         console.log('render');
         this.drawGrid();
         this.drawBoard(model.getBoard());
+        
+        const winningLine = model.getWinningLine();
+
+        if (winningLine) {
+            this.drawWinningLine(winningLine);
+        }
     }
 
     private drawBoard(board: FieldState[][]): void {
@@ -48,14 +55,14 @@ export default class TicTacToeView implements View {
         });
     }
 
-    /*private drawWinningLine(boardPositions: BoardPosition[]): void {
+    private drawWinningLine(boardPositions: BoardPosition[]): void {
         const x1 = this.mapBoardPosition(boardPositions[0].i);
         const y1 = this.mapBoardPosition(boardPositions[0].j);
         const x2 = this.mapBoardPosition(boardPositions[2].i);
         const y2 = this.mapBoardPosition(boardPositions[2].j);
 
         this.drawLine(x1, y1, x2, y2);
-    }*/
+    }
 
     private clearCanvas(): void {
         this.context.clearRect(0, 0, this.canvas.width, this.canvas.height);
