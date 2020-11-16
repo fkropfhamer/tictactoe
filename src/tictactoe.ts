@@ -14,14 +14,17 @@ export default class TicTacToe {
                 canvas = document.createElement('canvas');
             } 
 
-            this.view = new TicTacToeView(canvas, color);
-
             if (root) {
                 root.appendChild(canvas);
             }
-        } else {
-            this.view = view;
+
+            view = new TicTacToeView(canvas, color);
+
+            
         }
+        
+        this.view = view;
+        
 
         this.model = new TicTacToeModel();
 
