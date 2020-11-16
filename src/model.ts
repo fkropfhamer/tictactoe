@@ -2,6 +2,6 @@ import { EndingState, FieldState } from "./enums";
 
 export default interface Model {
     getBoard: () => FieldState[][]
-    getWinnigLine: () => number[] | null
+    getWinningLine: () => number[] | null
     getEndingState: () => EndingState 
 }

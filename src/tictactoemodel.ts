@@ -2,7 +2,7 @@ import { EndingState, FieldState } from "./enums";
 import Model from "./model";
 
 export default class TicTacToeModel implements Model {
-    private winnigLine = null;
+    private winningLine = null;
     private endingState = EndingState.NotEnded
     private board: FieldState[][]
 
@@ -14,8 +14,8 @@ export default class TicTacToeModel implements Model {
         ];
     }
 
-    public getWinnigLine(): number[] | null {
-        return this.winnigLine;
+    public getWinningLine(): number[] | null {
+        return this.winningLine;
     }
 
     public getEndingState() {

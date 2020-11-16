@@ -63,6 +63,12 @@ export default class TicTacToe {
         const mark = this.currentPlayer === Player.X ? FieldState.X : FieldState.O
         this.model.setFieldState(i, j, mark)
 
+        const gameState = this.checkGameState();
+
+        if (gameState) {
+            console.log(gameState, 'won');
+        }
+
         if (this.gameMode === GameMode.Easy) {
             this.randomMove();
         }
@@ -93,5 +99,29 @@ export default class TicTacToe {
 
     private hardMove() {
 
+    }
+
+    private checkGameState() {
+        const board = this.model.getBoard();
+        
+        for(let i = 0; i < 3; i++) {
+            if (board[i][0] !== FieldState.Empty && board[i][0] === board[i][1] && board[i][1] === board[i][2]) {
+                return {winner: board[i][0], winningLine: [{i, j: 0 }, {i, j: 1}, {i, j: 2}]};
+            }
+
+            if (board[0][i] !== FieldState.Empty && board[0][i] === board[1][i] && board[1][i] === board[2][i]) {
+                return { winner: board[0][i], winningLine: [{i: 0, j: i }, {i: 1, j: i}, {i: 2, j: i}]}
+            }
+        }
+
+        if (board[0][0] !== FieldState.Empty && board[0][0] === board[1][1] && board[1][1] === board[2][2]) {
+            return { winner: board[1][1], winningLine: [{i: 0, j: 0 }, {i: 1, j: 1}, {i: 2, j: 2}]};
+        }
+
+        if (board[0][2] !== FieldState.Empty && board[0][2] === board[1][1] && board[1][1] === board[2][0]) {
+            return { winner: board[1][1], winningLine: [{i: 0, j: 2 }, {i: 1, j: 1}, {i: 2, j: 0}]};
+        }
+        
+        return null;
     }
 }
