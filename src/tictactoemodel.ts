@@ -37,4 +37,16 @@ export default class TicTacToeModel implements Model {
 
         this.board[i][j] = fieldState;
     }
+
+    public getFieldState(i: number, j: number) {
+        if (i > 2 || i < 0) {
+            throw Error('undefined index');
+        }
+
+        if (j > 2 || j < 0) {
+            throw Error('undefined index');
+        } 
+
+        return this.board[i][j];
+    }
 }

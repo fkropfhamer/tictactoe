@@ -22,3 +22,8 @@ export enum GameMode {
     Hard,
     TwoPlayer,
 }
+
+export enum Player {
+    X,
+    O
+}
