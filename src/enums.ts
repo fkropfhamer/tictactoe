@@ -13,6 +13,7 @@ export enum EndingState {
     Tie = 0,
     OWin = 1,
     XWin = -1,
+    NotEnded = -2
 }
 
 export enum GameMode {

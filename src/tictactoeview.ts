@@ -23,7 +23,7 @@ export default class TicTacToeView implements View {
     public render(model: Model) {
         console.log('render');
         this.drawGrid();
-        this.drawBoard(model.board);
+        this.drawBoard(model.getBoard());
     }
 
     private drawBoard(board: FieldState[][]): void {

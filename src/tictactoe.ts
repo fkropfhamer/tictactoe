@@ -25,7 +25,7 @@ export default class TicTacToe {
 
         this.model = new TicTacToeModel();
 
-        this.model.board[0][0] = FieldState.O
+        this.model.setFieldState(0, 0, FieldState.X);
 
         this.view.render(this.model);
     }
