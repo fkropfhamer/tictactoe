@@ -10,7 +10,7 @@
     "build": "webpack --mode production",
     "lint": "eslint ./src --ext .ts",
     "package": "tsc",
-    "prepare": "npm run package"
+    "prepublishOnly": "npm run package"
   },
   "keywords": [
     "tictactoe",

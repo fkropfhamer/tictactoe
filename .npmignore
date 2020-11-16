@@ -4,3 +4,4 @@ src/
 .eslintrc
 tsconfig.json
 webpack.config.js
+public/
