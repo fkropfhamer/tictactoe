@@ -1,7 +1,7 @@
-export enum BoardState {
-    Empty = 0,
-    X = 1,
-    O = 2,
+export enum FieldState {
+    Empty,
+    X,
+    O,
 }
 
 export enum Color {
