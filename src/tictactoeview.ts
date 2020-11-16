@@ -7,7 +7,6 @@ export default class TicTacToeView implements View {
     private canvas: HTMLCanvasElement;
     private context: CanvasRenderingContext2D;
     private color: string;
-    private lastEndingState = EndingState.Tie;
 
     constructor(canvas: HTMLCanvasElement, color = 'white') {
         this.canvas = canvas
@@ -24,10 +23,9 @@ export default class TicTacToeView implements View {
 
     public render(model: Model) {
         console.log('render');
-        if (this.lastEndingState !== EndingState.NotEnded) {
-            this.clearCanvas();
-        }
-
+    
+        this.clearCanvas();
+        
         this.drawGrid();
         this.drawBoard(model.getBoard());
         

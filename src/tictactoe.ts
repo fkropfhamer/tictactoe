@@ -114,7 +114,15 @@ export default class TicTacToe {
     }
 
     private randomMove() {
+        while(true) {
+            let i = Math.floor(Math.random() * 3);
+            let j = Math.floor(Math.random() * 3);
 
+            if(this.model.getFieldState(i, j) === FieldState.Empty) {
+                this.model.setFieldState(i, j, FieldState.O);
+                break;
+            }
+        }
     }
 
     private mediumMove() {
