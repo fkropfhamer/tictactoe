@@ -1,4 +1,4 @@
-import { FieldState } from "./enums";
+import { EndingState, FieldState } from "./enums";
 import View from "./view";
 import Model from "./model";
 import BoardPosition from "./boardposition";
@@ -7,6 +7,7 @@ export default class TicTacToeView implements View {
     private canvas: HTMLCanvasElement;
     private context: CanvasRenderingContext2D;
     private color: string;
+    private lastEndingState = EndingState.Tie;
 
     constructor(canvas: HTMLCanvasElement, color = 'white') {
         this.canvas = canvas
@@ -23,6 +24,10 @@ export default class TicTacToeView implements View {
 
     public render(model: Model) {
         console.log('render');
+        if (this.lastEndingState !== EndingState.NotEnded) {
+            this.clearCanvas();
+        }
+
         this.drawGrid();
         this.drawBoard(model.getBoard());
         
@@ -66,7 +71,6 @@ export default class TicTacToeView implements View {
 
     private clearCanvas(): void {
         this.context.clearRect(0, 0, this.canvas.width, this.canvas.height);
-        this.drawGrid();
     }
 
     private drawLine(x1: number, y1: number, x2: number, y2: number): void {

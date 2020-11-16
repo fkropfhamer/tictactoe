@@ -54,4 +54,8 @@ export default class TicTacToeModel implements Model {
     public setWinningLine(winningLine: Boardpostion[]) {
         this.winningLine = winningLine;
     }
+
+    public setEndingState(endingState: EndingState) {
+        this.endingState = endingState;
+    }
 }

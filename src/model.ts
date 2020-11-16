@@ -6,4 +6,5 @@ export default interface Model {
     getWinningLine: () => Boardpostion[] | null
     getEndingState: () => EndingState 
     setWinningLine: (winningLine: Boardpostion[]) => void
+    setEndingState: (endingState: EndingState) => void 
 }

@@ -1,7 +1,7 @@
 import View from './view';
 import TicTacToeModel from './tictactoemodel';
 import TicTacToeView from './tictactoeview';
-import { FieldState, GameMode, Player } from './enums';
+import { EndingState, FieldState, GameMode, Player } from './enums';
 
 
 export default class TicTacToe {
@@ -48,6 +48,12 @@ export default class TicTacToe {
     }
 
     private onClick(i: number, j: number) {
+        if (this.model.getEndingState() !== EndingState.NotEnded) {
+            this.reset();
+
+            return;
+        }
+        
         if (this.isCalculatingMove) {
             return
         }
@@ -67,7 +73,24 @@ export default class TicTacToe {
 
         if (gameState) {
             console.log(gameState, 'won');
+            if (gameState.winner === FieldState.Empty) {
+                this.model.setEndingState(EndingState.Tie);
+                
+                this.view.render(this.model)
+                this.isCalculatingMove = false;
+                
+                return;
+            }
+
+            const endingState = gameState.winner === FieldState.X ? EndingState.XWin : EndingState.OWin;
+
+            this.model.setEndingState(endingState);
             this.model.setWinningLine(gameState.winningLine);
+
+            this.view.render(this.model)
+            this.isCalculatingMove = false;
+
+            return;
         }
 
         if (this.gameMode === GameMode.Easy) {
@@ -121,6 +144,18 @@ export default class TicTacToe {
 
         if (board[0][2] !== FieldState.Empty && board[0][2] === board[1][1] && board[1][1] === board[2][0]) {
             return { winner: board[1][1], winningLine: [{i: 0, j: 2 }, {i: 1, j: 1}, {i: 2, j: 0}]};
+        }
+
+        let x = true;
+
+        board.forEach((c) => {
+            c.forEach(b => {
+                x = x && b === FieldState.Empty;
+            });
+        });
+
+        if (x) {
+            return {winner: FieldState.Empty, winningLine: [] }
         }
         
         return null;
