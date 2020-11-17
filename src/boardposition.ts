@@ -1,4 +1,4 @@
-export default interface Boardpostion {
+export default interface BoardPostion {
     i: number,
     j: number
 }

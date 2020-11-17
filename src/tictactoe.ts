@@ -3,7 +3,6 @@ import TicTacToeModel from './tictactoemodel';
 import TicTacToeView from './tictactoeview';
 import { EndingState, FieldState, GameMode, Player } from './enums';
 
-
 export default class TicTacToe {
     private model: TicTacToeModel;
     private view: View;
@@ -69,7 +68,36 @@ export default class TicTacToe {
         const mark = this.currentPlayer === Player.X ? FieldState.X : FieldState.O
         this.model.setFieldState(i, j, mark)
 
-        const gameState = this.checkGameState();
+        if (this.checkEnding()) {
+            return;
+        }
+
+        if (this.gameMode === GameMode.Easy) {
+            this.randomMove();
+            this.checkEnding();
+        }
+
+        if (this.gameMode === GameMode.Medium) {
+            this.mediumMove();
+            this.checkEnding();
+        }
+
+        if (this.gameMode === GameMode.Hard) {
+            this.hardMove();
+            this.checkEnding();
+        }
+
+
+        if (this.gameMode === GameMode.TwoPlayer) {
+            this.currentPlayer = this.currentPlayer === Player.X ? Player.O : Player.X
+        }
+
+        this.view.render(this.model)
+        this.isCalculatingMove = false;
+    }
+
+    private checkEnding() {
+        const gameState = this.checkGameState(this.model.getBoard());
 
         if (gameState) {
             console.log(gameState, 'won');
@@ -79,7 +107,7 @@ export default class TicTacToe {
                 this.view.render(this.model)
                 this.isCalculatingMove = false;
                 
-                return;
+                return true;
             }
 
             const endingState = gameState.winner === FieldState.X ? EndingState.XWin : EndingState.OWin;
@@ -90,27 +118,10 @@ export default class TicTacToe {
             this.view.render(this.model)
             this.isCalculatingMove = false;
 
-            return;
+            return true;
         }
 
-        if (this.gameMode === GameMode.Easy) {
-            this.randomMove();
-        }
-
-        if (this.gameMode === GameMode.Medium) {
-            this.mediumMove();
-        }
-
-        if (this.gameMode === GameMode.Hard) {
-            this.hardMove();
-        }
-
-        if (this.gameMode === GameMode.TwoPlayer) {
-            this.currentPlayer = this.currentPlayer === Player.X ? Player.O : Player.X
-        }
-
-        this.view.render(this.model)
-        this.isCalculatingMove = false;
+        return false;
     }
 
     private randomMove() {
@@ -126,16 +137,36 @@ export default class TicTacToe {
     }
 
     private mediumMove() {
+        const board = this.model.getBoard().map((a) => [...a])
+    
+        let bestScore = -Infinity;
+        let move = {i: -1, j: -1};
+        for (let i = 0;i < 3; i++) {
+            for (let j = 0; j < 3; j++) {
+                if (board[i][j] === FieldState.Empty) {
+                    board[i][j] = FieldState.O;
+    
+                    const score = this.minimaxNoDepth(board, false);
 
+                    board[i][j] = FieldState.Empty;
+                    if (score > bestScore) {
+                        bestScore = score;
+                        move = { i, j };
+                    }
+                    if (score === bestScore) {
+                        move = Math.random() < 0.2 ? move : { i, j };
+                    }
+                }
+            }
+        }
+        this.model.setFieldState(move.i, move.j, FieldState.O);
     }
 
     private hardMove() {
 
     }
 
-    private checkGameState() {
-        const board = this.model.getBoard();
-        
+    private checkGameState(board: FieldState[][]) {
         for(let i = 0; i < 3; i++) {
             if (board[i][0] !== FieldState.Empty && board[i][0] === board[i][1] && board[i][1] === board[i][2]) {
                 return {winner: board[i][0], winningLine: [{i, j: 0 }, {i, j: 1}, {i, j: 2}]};
@@ -158,7 +189,7 @@ export default class TicTacToe {
 
         board.forEach((c) => {
             c.forEach(b => {
-                x = x && b === FieldState.Empty;
+                x = x && (b !== FieldState.Empty);
             });
         });
 
@@ -167,5 +198,49 @@ export default class TicTacToe {
         }
         
         return null;
+    }
+
+    private minimaxNoDepth(board: FieldState[][], isMaximizing: boolean) {
+        const gameState = this.checkGameState(board);
+        
+        if (gameState) {
+            if (gameState.winner === FieldState.O) {
+                return EndingState.OWin;
+            }
+
+            if (gameState.winner === FieldState.X) {
+                return EndingState.XWin;
+            }
+                    
+            return EndingState.Tie;
+        }
+
+        let bestScore: number;
+        if (isMaximizing) {
+            bestScore = -Infinity;
+            for (let i = 0;i < 3; i++) {
+                for (let j = 0; j < 3; j++) {
+                    if (board[i][j] === FieldState.Empty) {
+                        board[i][j] = FieldState.O;
+                        const score = this.minimaxNoDepth(board, false);
+                        board[i][j] = FieldState.Empty;
+                        bestScore = Math.max(score, bestScore);
+                    }
+                }
+            }
+        } else {
+            bestScore = Infinity;
+            for (let i = 0;i < 3; i++) {
+                for (let j = 0; j < 3; j++) {
+                    if (board[i][j] === FieldState.Empty) {
+                        board[i][j] = FieldState.X;
+                        const score = this.minimaxNoDepth(board, true);
+                        board[i][j] = FieldState.Empty;
+                        bestScore = Math.min(score, bestScore);
+                    }
+                }
+            }
+        }
+        return bestScore;
     }
 }
