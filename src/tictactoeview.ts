@@ -36,15 +36,6 @@ export default class TicTacToeView implements View {
         }
     }
 
-    private drawBoard(board: FieldState[][]): void {
-        this.drawGrid();
-        board.forEach((column, i) => {
-            column.forEach((state, j) => {
-                this.drawFieldState(i, j, state);
-            })
-        })
-    }
-
     public addClickEventListener(fn: (i: number, j: number) => void): void {
         this.canvas.addEventListener("click", (event: MouseEvent) => {
             const x: number = event.offsetX;
@@ -56,6 +47,15 @@ export default class TicTacToeView implements View {
 
             fn(i, j);
         });
+    }
+
+    private drawBoard(board: FieldState[][]): void {
+        this.drawGrid();
+        board.forEach((column, i) => {
+            column.forEach((state, j) => {
+                this.drawFieldState(i, j, state);
+            })
+        })
     }
 
     private drawWinningLine(boardPositions: BoardPosition[]): void {
