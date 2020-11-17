@@ -163,7 +163,29 @@ export default class TicTacToe {
     }
 
     private hardMove() {
+        const board = this.model.getBoard().map((a) => [...a])
+    
+        let bestScore = -Infinity;
+        let move = {i: -1, j: -1};
+        for (let i = 0;i < 3; i++) {
+            for (let j = 0; j < 3; j++) {
+                if (board[i][j] === FieldState.Empty) {
+                    board[i][j] = FieldState.O;
+    
+                    const score = this.minimax(board, false, 0);
 
+                    board[i][j] = FieldState.Empty;
+                    if (score > bestScore) {
+                        bestScore = score;
+                        move = { i, j };
+                    }
+                    if (score === bestScore) {
+                        move = Math.random() < 0.2 ? move : { i, j };
+                    }
+                }
+            }
+        }
+        this.model.setFieldState(move.i, move.j, FieldState.O);
     }
 
     private checkGameState(board: FieldState[][]) {
@@ -235,6 +257,50 @@ export default class TicTacToe {
                     if (board[i][j] === FieldState.Empty) {
                         board[i][j] = FieldState.X;
                         const score = this.minimaxNoDepth(board, true);
+                        board[i][j] = FieldState.Empty;
+                        bestScore = Math.min(score, bestScore);
+                    }
+                }
+            }
+        }
+        return bestScore;
+    }
+
+    private minimax(board: FieldState[][], isMaximizing: boolean, depth: number) {
+        const gameState = this.checkGameState(board);
+        
+        if (gameState) {
+            if (gameState.winner === FieldState.O) {
+                return 10 - depth;
+            }
+
+            if (gameState.winner === FieldState.X) {
+                return -10 + depth;
+            }
+                    
+            return EndingState.Tie;
+        }
+
+        let bestScore: number;
+        if (isMaximizing) {
+            bestScore = -Infinity;
+            for (let i = 0;i < 3; i++) {
+                for (let j = 0; j < 3; j++) {
+                    if (board[i][j] === FieldState.Empty) {
+                        board[i][j] = FieldState.O;
+                        const score = this.minimax(board, false, depth + 1);
+                        board[i][j] = FieldState.Empty;
+                        bestScore = Math.max(score, bestScore);
+                    }
+                }
+            }
+        } else {
+            bestScore = Infinity;
+            for (let i = 0;i < 3; i++) {
+                for (let j = 0; j < 3; j++) {
+                    if (board[i][j] === FieldState.Empty) {
+                        board[i][j] = FieldState.X;
+                        const score = this.minimax(board, true, depth + 1);
                         board[i][j] = FieldState.Empty;
                         bestScore = Math.min(score, bestScore);
                     }
