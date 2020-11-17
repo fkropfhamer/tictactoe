@@ -10,24 +10,19 @@ export default class TicTacToe {
     private isCalculatingMove = false;
     private currentPlayer = Player.X;
 
-    constructor(view?: View, canvas?: HTMLCanvasElement, root?: HTMLElement, color?: string, gameMode = GameMode.TwoPlayer) {
+    constructor(view: View | HTMLCanvasElement | HTMLElement, gameMode = GameMode.TwoPlayer, color?: string) {
         this.gameMode = gameMode;
-        
-        if (!view) {
-            if (!canvas) {
-                canvas = document.createElement('canvas');
-            } 
 
-            if (root) {
-                root.appendChild(canvas);
-            }
-
-            view = new TicTacToeView(canvas, color);
-
-            
+        if (view instanceof HTMLCanvasElement) {
+            this.view = new TicTacToeView(view, color);
+        } else if (view instanceof HTMLElement) {
+            const canvas = document.createElement('canvas');
+            this.view = new TicTacToeView(canvas);
+            view.appendChild(canvas);
+        } else {
+            this.view = view;
         }
         
-        this.view = view;
         this.model = new TicTacToeModel();
 
         this.view.addClickEventListener(this.onClick.bind(this))
